@@ -82,7 +82,6 @@ window#waybar {
     box-shadow: 0 0 5px #00ffd5;
 }
 
-
 #clock,
 #battery,
 #cpu,
@@ -127,7 +126,6 @@ window#waybar {
     animation: activeGlow 3s infinite alternate;
 }
 
-/* animation recolored */
 @keyframes activeGlow {
     0% { box-shadow: 0 0 6px #00eaff; }
     100% { box-shadow: 0 0 20px #00ffa6; }
@@ -206,26 +204,70 @@ tooltip {
     -gtk-icon-effect: highlight;
     color: #00eaff;
 }
-@keyframes batteryCharge {
-    0% { background: #00bcd4; 
-            color: black;}
 
-    100% { background: #006064;
-            color: black;}
-
+/* ========== ANIME STYLE BATTERY CHARGING (no position/transform) ========== */
+@keyframes animeCharge {
+    0% {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        color: #2c0f2b;
+        text-shadow: 0 0 4px #fff0f5, 0 0 8px #ffb6c1;
+        border-color: #ffb7c5;
+        box-shadow: inset 0 0 8px rgba(255,255,255,0.6), 0 0 12px #ff99cc;
+    }
+    33% {
+        background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+        color: #1e1a2f;
+        text-shadow: 0 0 6px #ffe6f0, 0 0 12px #d9b4ff;
+        border-color: #d9b4ff;
+        box-shadow: inset 0 0 10px rgba(255,220,255,0.8), 0 0 18px #c084fc;
+    }
+    66% {
+        background: linear-gradient(135deg, #84fab0, #8fd3f4);
+        color: #0f2b2d;
+        text-shadow: 0 0 4px #e0ffff, 0 0 10px #7df9ff;
+        border-color: #9efff0;
+        box-shadow: inset 0 0 8px #b3ffff, 0 0 15px #2dd4bf;
+    }
+    100% {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        color: #2c0f2b;
+        text-shadow: 0 0 4px #fff0f5, 0 0 8px #ffb6c1;
+        border-color: #ffb7c5;
+        box-shadow: inset 0 0 8px rgba(255,255,255,0.6), 0 0 12px #ff99cc;
+    }
 }
+
+/* Extra sparkle: animated text shadow (like tiny stars) */
+@keyframes sparkleShadow {
+    0% { text-shadow: 0 0 2px gold, 0 0 4px #ffb347; }
+    50% { text-shadow: 0 0 8px #ffd966, 0 0 12px #ffaa33; }
+    100% { text-shadow: 0 0 2px gold, 0 0 4px #ffb347; }
+}
+
+/* Battery charging – main animation */
+#battery.charging {
+    animation: animeCharge 2.5s ease infinite, sparkleShadow 1.2s ease-in-out infinite;
+    background-size: 200% 200%;
+    border-radius: 20px;
+    font-weight: bold;
+    font-family: "Comic Neue", "Anime Ace", "Poppins", sans-serif;
+    transition: all 0.2s ease;
+}
+
+/* Critical battery – from your original */
 @keyframes batteryCritical {
     0% {
-        background: #990000;      /* dark red background */
-        border-color: #ff6666;    /* soft red border */
+        background: #990000;
+        border-color: #ff6666;
         box-shadow: 0 0 2px #ff4444;
     }
     100% {
-        background: #ff3333;      /* bright red background */
+        background: #ff3333;
         border-color: #ff9999;
         box-shadow: 0 0 12px #ff6666, 0 0 8px #ff4444;
     }
 }
 
-#battery.critical { animation: batteryCritical 0.8s infinite alternate; }
-#battery.charging { animation: batteryCharge 1s infinite alternate; }
+#battery.critical {
+    animation: batteryCritical 0.8s infinite alternate;
+}

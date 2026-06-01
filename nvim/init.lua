@@ -36,7 +36,8 @@ lazy.setup({
         "clangd",
         "ts_ls",
         "cssls",
-        "html", 
+        "html",
+        "jdtls",
       },
     })
   end,
@@ -132,11 +133,12 @@ lazy.setup({
   "html",
   "css",
   "markdown",
+  "java",
 },
 
         highlight = { enable = true },
       indent = { enable = true },
-      autotag{
+      autotag = {
           enable = true,
       },
     })
@@ -261,6 +263,7 @@ local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. vim.fn.fn
 
 vim.keymap.set('v', '<leader>y', '"+y', { desc = "Copy selection to system clipboard" })
 vim.keymap.set('n', '<leader>y', '"+yy', { desc = "Copy line to system clipboard" })
+vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true })
 vim.filetype.add({
   extension = {
     jsx = "javascriptreact",
@@ -315,7 +318,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.start({
       name = "jdtls",
       cmd = cmd,
-      root_dir = vim.fs.root(0, { "gradlew", "mvnw", "pom.xml", "build.gradle", ".git" }),
+      root_dir = vim.fs.root(0, { "gradlew", "mvnw", "pom.xml", "build.gradle", ".git" }) or vim.fn.getcwd(),
+      capabilities = require("cmp_nvim_lsp").default_capabilities(),
     })
   end,
 })
